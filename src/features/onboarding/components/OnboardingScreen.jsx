@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import RegisterStep from './RegisterStep';
+import SocialMediaStep from './SocialMediaStep';
+import InterestSelectionStep from './InterestSelectionStep';
+import CurriculumPreviewStep from './CurriculumPreviewStep';
 import { useOnboarding } from '../viewmodels/useOnboarding';
 
 const OnboardingScreen = ({ navigation }) => {
@@ -9,17 +12,19 @@ const OnboardingScreen = ({ navigation }) => {
 
     const handleNext = (data) => {
         saveStepData(data);
-        if (step < 4) {
-            setStep(step + 1);
-        } else {
-            navigation.navigate('Dashboard');
-        }
+        setStep(step + 1);
+    };
+
+    const handleFinish = () => {
+        navigation.navigate('Dashboard');
     };
 
     return (
         <View style={styles.container}>
-        {step === 1 && <RegisterStep onNext={handleNext} />}
-        {/* agregar los otros pasos aca */}
+            {step === 1 && <RegisterStep onNext={handleNext} />}
+            {step === 2 && <SocialMediaStep onNext={handleNext} />}
+            {step === 3 && <InterestSelectionStep onNext={handleNext} />}
+            {step === 4 && <CurriculumPreviewStep onFinish={handleFinish} />}
         </View>
     );
 };
