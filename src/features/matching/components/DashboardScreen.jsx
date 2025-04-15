@@ -11,8 +11,6 @@ const DashboardScreen = () => {
         (offer) => offer.level === 1 && (interests ? interests.some((interest) => offer.category === interest) : false)
     );
 
-    console.log('Ofertas filtradas:', filteredOffers);
-
     const renderItem = ({ item }) => (
         <View style={styles.card}>
             <Text style={styles.businessName}>{item.businessName}</Text>
