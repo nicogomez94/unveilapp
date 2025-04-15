@@ -7,23 +7,23 @@ const DashboardScreen = () => {
     const { interests } = useOnboardingStore();
 
     const filteredOffers = mockOffers.filter(
-        (offer) => offer.level === 1 && interests.some((interest) => offer.category === interest)
+        (offer) => offer.level === 1 && (interests ? interests.some((interest) => offer.category === interest) : false)
     );
 
     return (
         <View style={styles.container}>
-        <Text>Ofertas Disponibles</Text>
-        <FlatList
-            data={filteredOffers}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-            <View style={styles.card}>
-                <Text>{item.business}</Text>
-                <Text>{item.description}</Text>
-                <Text>{item.reward}</Text>
-            </View>
-            )}
-        />
+            <Text>Ofertas Disponibles</Text>
+            <FlatList
+                data={filteredOffers}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <View style={styles.card}>
+                        <Text>{item.business}</Text>
+                        <Text>{item.description}</Text>
+                        <Text>{item.reward}</Text>
+                    </View>
+                )}
+            />
         </View>
     );
 };
