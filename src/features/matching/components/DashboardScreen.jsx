@@ -1,23 +1,28 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { mockOffers } from '../../../data/mock/mockOffers';
 import { useOnboarding } from '../../onboarding/viewmodels/useOnboarding'; // Importa el hook useOnboarding
+import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
 
 const DashboardScreen = () => {
     const { onboardingData } = useOnboarding(); // Usa el hook useOnboarding
     const { interests } = onboardingData; // Obtiene los intereses del objeto onboardingData
+    const navigation = useNavigation(); // Inicializa useNavigation
 
     const filteredOffers = mockOffers.filter(
         (offer) => offer.level === 1 && (interests ? interests.some((interest) => offer.category === interest) : false)
     );
 
     const renderItem = ({ item }) => (
-        <View style={styles.card}>
+        <TouchableOpacity
+            style={styles.card}
+            onPress={() => navigation.navigate('OfferDetail', { offer: item })} // Navega a OfferDetailScreen
+        >
             <Text style={styles.businessName}>{item.businessName}</Text>
             <Text style={styles.description}>{item.description}</Text>
-            <Text style={styles.reward}>Incentivo: {item.incentive}</Text>
+            <Text style={styles.incentive}>Incentivo: {item.incentive}</Text>
             <Text style={styles.category}>Categoría: {item.category}</Text>
-        </View>
+        </TouchableOpacity>
     );
 
     return (
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 14,
     },
-    reward: {
+    incentive: {
         fontSize: 14,
         fontStyle: 'italic',
     },
