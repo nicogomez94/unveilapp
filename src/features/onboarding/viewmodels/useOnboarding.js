@@ -1,11 +1,16 @@
-import { useOnboardingStore } from '../../../store/onboardingStore';
+import { useOnboardingStore } from '../../../store/onboardingStore'; // Importa el store de onboarding
 
 export const useOnboarding = () => {
-    const { setOnboardingData } = useOnboardingStore();
+    // Obtiene los datos del onboarding y la función para actualizarlos desde el store
+    const { onboardingData, setOnboardingData } = useOnboardingStore();
 
+    // Función para guardar los datos de cada paso del onboarding
     const saveStepData = (data) => {
-        setOnboardingData(data);
+        setOnboardingData({ ...onboardingData, ...data });
     };
 
-    return { saveStepData };
+    return {
+        onboardingData,
+        saveStepData,
+    };
 };
