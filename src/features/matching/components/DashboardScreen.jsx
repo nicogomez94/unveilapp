@@ -43,28 +43,24 @@ const DashboardScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <LinearGradient
-                    colors={['#000',"#fff"]}
-                    style={styles.gradientBackground}
-            ></LinearGradient>
-                <Text style={styles.welcomeText}>
-                    Bienvenido, {onboardingData?.fullName || 'Usuario'}
+            <Text style={styles.welcomeText}>
+                Bienvenido, {onboardingData?.fullName || 'Usuario'}
+            </Text>
+            
+            <Text style={styles.sectionTitle}>Ofertas Recomendadas</Text>
+            
+            {filteredOffers.length > 0 ? (
+                <FlatList
+                    data={filteredOffers}
+                    renderItem={renderOfferItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={styles.offersList}
+                />
+            ) : (
+                <Text style={styles.noOffersText}>
+                    No hay ofertas disponibles para tus intereses. ¡Pronto tendremos más!
                 </Text>
-                
-                <Text style={styles.sectionTitle}>Ofertas Recomendadas</Text>
-                
-                {filteredOffers.length > 0 ? (
-                    <FlatList
-                        data={filteredOffers}
-                        renderItem={renderOfferItem}
-                        keyExtractor={(item) => item.id.toString()}
-                        contentContainerStyle={styles.offersList}
-                    />
-                ) : (
-                    <Text style={styles.noOffersText}>
-                        No hay ofertas disponibles para tus intereses. ¡Pronto tendremos más!
-                    </Text>
-                )}
+            )}
         </SafeAreaView>
     );
 };

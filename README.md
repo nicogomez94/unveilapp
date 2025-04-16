@@ -9,8 +9,8 @@ Sigue estos pasos para compilar y ejecutar el proyecto en tu entorno local:
 1.  **Clonar el repositorio:**
 
     ```bash
-    git clone [URL del repositorio]
-    cd UnveilApp
+    git clone https://github.com/nicogomez94/unveilapp
+    cd unveilapp
     ```
 2.  **Instalar las dependencias:**
 
