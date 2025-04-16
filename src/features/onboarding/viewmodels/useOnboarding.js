@@ -1,16 +1,25 @@
-import { useOnboardingStore } from '../../../store/onboardingStore'; // Importa el store de onboarding
+import { useOnboardingStore } from '../../../store/onboardingStore';
 
+// Hook principal para acceder y manipular datos del onboarding
 export const useOnboarding = () => {
-    // Obtiene los datos del onboarding y la función para actualizarlos desde el store
-    const { onboardingData, setOnboardingData } = useOnboardingStore();
-
-    // Función para guardar los datos de cada paso del onboarding
+    const onboardingData = useOnboardingStore((state) => state.onboardingData);
+    const updateStepData = useOnboardingStore((state) => state.updateStepData);
+    const setOnboardingData = useOnboardingStore((state) => state.setOnboardingData);
+    const resetOnboardingData = useOnboardingStore((state) => state.resetOnboardingData);
+    
     const saveStepData = (data) => {
-        setOnboardingData({ ...onboardingData, ...data });
+        console.log('Guardando datos del paso:', data);
+        updateStepData(data);
     };
 
     return {
         onboardingData,
         saveStepData,
+        resetOnboardingData,
+        setOnboardingData
     };
 };
+
+// Hooks específicos para facilitar el acceso a partes concretas
+export const useSetOnboarding = () => useOnboardingStore((state) => state.setOnboardingData);
+export const useResetOnboarding = () => useOnboardingStore((state) => state.resetOnboardingData);
