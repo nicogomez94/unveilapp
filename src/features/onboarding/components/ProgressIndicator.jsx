@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
 const ProgressIndicator = ({ steps, currentStep }) => {
   return (
@@ -21,7 +21,11 @@ const ProgressIndicator = ({ steps, currentStep }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    marginTop: 50,
+    paddingBottom: 10,
+    backgroundColor: 'white', // Fondo blanco para la barra
   },
   progressBar: {
     height: 8,
@@ -31,7 +35,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#4a90e2',
+    backgroundColor: '#5a6bff',
     borderRadius: 4,
   },
   stepText: {

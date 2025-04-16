@@ -80,20 +80,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    padding: 10,
-    borderRadius: 5,
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    flex: 1,
+    marginHorizontal: 5,
   },
   backButton: {
-    backgroundColor: '#ddd',
-  },
-  nextButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#f0f0f0',
   },
   backButtonText: {
-    color: '#333',
+    color: '#666',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  nextButton: {
+    backgroundColor: '#5a6bff',
   },
   nextButtonText: {
-    color: '#fff',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

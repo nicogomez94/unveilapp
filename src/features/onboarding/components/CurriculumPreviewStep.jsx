@@ -47,7 +47,7 @@ const CurriculumPreviewStep = ({ onFinish, onPrevious }) => { // Añadir onPrevi
             style={[styles.button, styles.finishButton]} 
             onPress={onFinish}
           >
-            <Text style={styles.finishButtonText}>Finalizar Onboarding</Text>
+            <Text style={styles.finishButtonText}>Finalizar</Text>
           </TouchableOpacity>
         </View>
     </View>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   finishButton: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: '#5a6bff',
   },
   finishButtonText: {
     color: 'white',

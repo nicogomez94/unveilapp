@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedInterest: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: '#5a6bff',
   },
   interestText: {
     fontWeight: '500',
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   nextButton: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: '#5a6bff',
   },
   nextButtonText: {
     color: 'white',

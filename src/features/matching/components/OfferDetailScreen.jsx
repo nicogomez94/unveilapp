@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     proposeButton: {
-        backgroundColor: '#4a90e2',
+        backgroundColor: '#5a6bff',
         paddingVertical: 14,
         borderRadius: 8,
         alignItems: 'center',

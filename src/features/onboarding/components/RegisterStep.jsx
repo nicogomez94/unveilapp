@@ -37,7 +37,10 @@ const RegisterStep = ({ onNext, onPrevious }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Registro Inicial</Text>
+      <Text style={styles.title}>Información Personal</Text>
+      <Text style={styles.subtitle}>
+        Completa tu información personal para crear tu cuenta
+      </Text>
       <TextInput
         placeholder="Nombre completo"
         value={formData.fullName}
@@ -99,6 +102,16 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 20,
+  },
   input: {
     height: 40,
     borderWidth: 1,
@@ -127,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   nextButton: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: '#5a6bff',
     marginLeft: 8,
   },
   nextButtonText: {
