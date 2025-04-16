@@ -5,34 +5,52 @@ import { useOnboarding } from '../../onboarding/viewmodels/useOnboarding'; // Im
 import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
 
 const DashboardScreen = () => {
-    const { onboardingData } = useOnboarding(); // Usa el hook useOnboarding
-    const { interests } = onboardingData; // Obtiene los intereses del objeto onboardingData
-    const navigation = useNavigation(); // Inicializa useNavigation
+    const { onboardingData } = useOnboarding();
+    const navigation = useNavigation();
+    
+    // Verificar que onboardingData e interests existan
+    const interests = onboardingData?.interests || [];
+    
+    console.log("Datos en DashboardScreen:", onboardingData);
+    console.log("Intereses:", interests);
 
+    // Filtrar ofertas basadas en nivel e intereses
     const filteredOffers = mockOffers.filter(
-        (offer) => offer.level === 1 && (interests ? interests.some((interest) => offer.category === interest) : false)
+        (offer) => offer.level === 1 && interests.some((interest) => offer.category === interest)
     );
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate('OfferDetail', { offer: item })} // Navega a OfferDetailScreen
+    const renderOfferItem = ({ item }) => (
+        <TouchableOpacity 
+            style={styles.offerCard}
+            onPress={() => navigation.navigate('OfferDetail', { offerId: item.id })}
         >
-            <Text style={styles.businessName}>{item.businessName}</Text>
-            <Text style={styles.description}>{item.description}</Text>
-            <Text style={styles.incentive}>Incentivo: {item.incentive}</Text>
-            <Text style={styles.category}>Categoría: {item.category}</Text>
+            <Text style={styles.offerTitle}>{item.title || 'Sin título'}</Text>
+            <Text style={styles.offerBrand}>{item.brand || 'Marca no disponible'}</Text>
+            <Text style={styles.offerCategory}>{item.category || 'Sin categoría'}</Text>
+            <Text style={styles.offerCompensation}>Compensación: ${item.compensation || '0'}</Text>
         </TouchableOpacity>
     );
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Ofertas Disponibles</Text>
-            <FlatList
-                data={filteredOffers}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-            />
+            <Text style={styles.welcomeText}>
+                Bienvenido, {onboardingData?.fullName || 'Usuario'}
+            </Text>
+            
+            <Text style={styles.sectionTitle}>Ofertas Recomendadas</Text>
+            
+            {filteredOffers.length > 0 ? (
+                <FlatList
+                    data={filteredOffers}
+                    renderItem={renderOfferItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={styles.offersList}
+                />
+            ) : (
+                <Text style={styles.noOffersText}>
+                    No hay ofertas disponibles para tus intereses. ¡Pronto tendremos más!
+                </Text>
+            )}
         </View>
     );
 };
@@ -40,34 +58,57 @@ const DashboardScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
+        padding: 20,
     },
-    title: {
-        fontSize: 20,
+    welcomeText: {
+        fontSize: 22,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginBottom: 20,
     },
-    card: {
-        padding: 16,
-        marginVertical: 8,
-        backgroundColor: '#f9f9f9',
-        borderRadius: 8,
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 15,
     },
-    businessName: {
+    offersList: {
+        paddingBottom: 20,
+    },
+    offerCard: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    offerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    offerBrand: {
         fontSize: 16,
-        fontWeight: 'bold',
+        marginBottom: 5,
     },
-    description: {
+    offerCategory: {
         fontSize: 14,
+        color: '#666',
+        marginBottom: 5,
     },
-    incentive: {
-        fontSize: 14,
-        fontStyle: 'italic',
+    offerCompensation: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#4a90e2',
     },
-    category: {
-        fontSize: 12,
-        color: 'gray',
-    },
+    noOffersText: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center',
+        marginTop: 30,
+    }
 });
 
 export default DashboardScreen;

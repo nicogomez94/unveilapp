@@ -1,8 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
+import { mockOffers } from '../../../data/mock/mockOffers';
 
 const OfferDetailScreen = ({ route, navigation }) => {
-    const { offer } = route.params;
+    const { offerId } = route.params || {};
+    
+    // Buscar la oferta por ID en los datos mock
+    const offer = mockOffers.find(o => o.id === offerId);
+    
+    // Verifica si offer existe, si no, muestra un mensaje
+    if (!offer) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.errorText}>No se encontró información de la oferta</Text>
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={() => navigation.goBack()}
+                >
+                    <Text style={styles.buttonText}>Volver</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
     const [proposedDates, setProposedDates] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputText, setInputText] = useState('');
@@ -39,10 +59,12 @@ const OfferDetailScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{offer.businessName}</Text>
+            <Text style={styles.title}>{offer.title}</Text>
+            <Text style={styles.brand}>Marca: {offer.brand}</Text>
             <Text style={styles.description}>{offer.description}</Text>
-            <Text style={styles.incentive}>{offer.incentive}</Text>
-            <Text style={styles.category}>{offer.category}</Text>
+            <Text style={styles.compensation}>Compensación: ${offer.compensation}</Text>
+            <Text style={styles.category}>Categoría: {offer.category}</Text>
+            
             <TouchableOpacity style={styles.button} onPress={handleProposeDates}>
                 <Text style={styles.buttonText}>Mostrar Interés</Text>
             </TouchableOpacity>
@@ -62,6 +84,7 @@ const OfferDetailScreen = ({ route, navigation }) => {
                             style={styles.input}
                             onChangeText={setInputText}
                             value={inputText}
+                            placeholder="ej: 10/05/2024, 15/05/2024"
                         />
                         <View style={styles.buttonContainer}>
                             <Button title="Cancelar" onPress={() => setModalVisible(false)} />
@@ -80,41 +103,51 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 16,
     },
-    description: {
-        fontSize: 14,
-        marginBottom: 8,
+    brand: {
+        fontSize: 18,
+        fontWeight: '500',
+        marginBottom: 12,
     },
-    incentive: {
-        fontSize: 14,
-        fontStyle: 'italic',
+    description: {
+        fontSize: 16,
+        marginBottom: 16,
+        lineHeight: 24,
+    },
+    compensation: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#4a90e2',
         marginBottom: 8,
     },
     category: {
-        fontSize: 12,
-        color: 'gray',
+        fontSize: 14,
+        color: '#666',
+        marginBottom: 24,
     },
     button: {
-        backgroundColor: '#007bff',
-        padding: 12,
+        backgroundColor: '#4a90e2',
+        padding: 16,
         borderRadius: 8,
         alignItems: 'center',
+        marginTop: 16,
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
+        fontWeight: 'bold',
     },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalView: {
-        margin: 20,
+        width: '80%',
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
@@ -131,18 +164,28 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: 'center',
+        fontSize: 16,
     },
     input: {
         height: 40,
         margin: 12,
         borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 8,
         padding: 10,
-        width: 200,
+        width: '100%',
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
+        marginTop: 16,
+    },
+    errorText: {
+        fontSize: 16,
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 16,
     },
 });
 

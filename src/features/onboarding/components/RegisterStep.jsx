@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { useOnboarding } from '../viewmodels/useOnboarding';
 
 const RegisterStep = ({ onNext }) => {
+  const { saveStepData } = useOnboarding();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    country: '',
-    city: '',
+    fullName: 'test',
+    email: 'test@gmail.com',
+    password: 'sdfadfds',
+    country: 'argentina',
+    city: 'bsas',
   });
 
   const handleNext = () => {
     // Validar datos antes de continuar
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!formData.fullName || !formData.email || !formData.password) {
       alert('Por favor, completa todos los campos obligatorios.');
       return;
     }
-    onNext(formData);
+    saveStepData(formData);
+    onNext();
   };
 
   return (
@@ -24,8 +27,8 @@ const RegisterStep = ({ onNext }) => {
       <Text>Registro Inicial</Text>
       <TextInput
         placeholder="Nombre completo"
-        value={formData.name}
-        onChangeText={(text) => setFormData({ ...formData, name: text })}
+        value={formData.fullName}
+        onChangeText={(text) => setFormData({ ...formData, fullName: text })}
         style={styles.input}
       />
       <TextInput
@@ -61,14 +64,15 @@ const RegisterStep = ({ onNext }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 20,
   },
   input: {
+    height: 40,
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 8,
-    marginVertical: 8,
-    borderRadius: 4,
+    borderRadius: 5,
+    marginVertical: 5,
+    paddingHorizontal: 10,
   },
 });
 

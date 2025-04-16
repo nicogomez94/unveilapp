@@ -5,14 +5,26 @@ import { useOnboarding } from '../viewmodels/useOnboarding';
 const CurriculumPreviewStep = ({ onFinish }) => {
   // Obtiene los datos del onboarding desde el ViewModel
   const { onboardingData } = useOnboarding();
+  
+  // Para debug
+  console.log("Datos recibidos en CurriculumPreviewStep:", onboardingData);
+  
+  // Si no hay datos, muestra un mensaje
+  if (!onboardingData) {
+    return (
+      <View style={styles.container}>
+        <Text>Cargando datos...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
         <Text style={styles.title}>Vista Previa del Currículum</Text>
-        <Text style={styles.label}>Nombre: {onboardingData.fullName}</Text>
-        <Text style={styles.label}>Ciudad: {onboardingData.city}</Text>
+        <Text style={styles.label}>Nombre: {onboardingData.fullName || 'No disponible'}</Text>
+        <Text style={styles.label}>Ciudad: {onboardingData.city || 'No disponible'}</Text>
         <Text style={styles.label}>
-            Intereses: {onboardingData.interests ? onboardingData.interests.join(', ') : 'Ninguno'}
+            Intereses: {onboardingData.interests?.length > 0 ? onboardingData.interests.join(', ') : 'Ninguno'}
         </Text>
 
         <Text style={styles.sectionTitle}>Campañas Realizadas</Text>
@@ -36,7 +48,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
   },
@@ -51,15 +63,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   finishButton: {
-    backgroundColor: '#007bff',
-    padding: 12,
-    borderRadius: 5,
-    marginTop: 30,
+    backgroundColor: '#4a90e2',
+    padding: 15,
+    borderRadius: 8,
     alignItems: 'center',
+    marginTop: 30,
   },
   finishButtonText: {
-    color: '#fff',
-    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
