@@ -16,7 +16,7 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#4a90e2', '#5a6bff']}
+        colors={['#08d9e3', '#5a6bff']}
         style={styles.gradientBackground}
       >
         <View style={styles.contentContainer}>
