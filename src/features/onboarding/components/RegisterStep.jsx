@@ -1,25 +1,38 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useOnboarding } from '../viewmodels/useOnboarding';
+import { useOnboardingStore } from '../../../store/onboardingStore';
 
-const RegisterStep = ({ onNext }) => {
-  const { saveStepData } = useOnboarding();
+const RegisterStep = ({ onNext, onPrevious }) => {
+  const onboardingHook = useOnboarding();
+  const onboardingStore = useOnboardingStore();
+  
+  console.log('Funciones disponibles en useOnboarding:', Object.keys(onboardingHook));
+  console.log('Funciones disponibles en useOnboardingStore:', Object.keys(onboardingStore));
+  
+  const { onboardingData } = onboardingHook;
+  
   const [formData, setFormData] = useState({
-    fullName: 'Nico',
-    email: 'nico@gmail.com',
-    password: '123456',
-    country: 'Argentina',
-    city: 'Buenos Aires',
+    fullName: onboardingData.fullName || '',
+    email: onboardingData.email || '',
+    password: onboardingData.password || '',
+    country: onboardingData.country || '',
+    city: onboardingData.city || '',
   });
 
   const handleNext = () => {
-    // Validar datos antes de continuar
     if (!formData.fullName || !formData.email || !formData.password) {
-      alert('Por favor, completa todos los campos obligatorios.');
+      Alert.alert('Error', 'Por favor, completa todos los campos obligatorios.');
       return;
     }
-    saveStepData(formData);
-    onNext();
+    
+    try {
+      onboardingStore.updateStepData(formData);
+      onNext();
+    } catch (error) {
+      console.error('Error al actualizar datos:', error);
+      Alert.alert('Error', 'No se pudieron guardar los datos. Por favor intenta nuevamente.');
+    }
   };
 
   return (
@@ -56,7 +69,27 @@ const RegisterStep = ({ onNext }) => {
         onChangeText={(text) => setFormData({ ...formData, city: text })}
         style={styles.input}
       />
-      <Button title="Siguiente" onPress={handleNext} />
+      <View style={styles.navigationButtons}>
+        {onPrevious && (
+          <TouchableOpacity 
+            style={[styles.button, styles.backButton]} 
+            onPress={onPrevious}
+          >
+            <Text style={styles.backButtonText}>Atrás</Text>
+          </TouchableOpacity>
+        )}
+        
+        <TouchableOpacity 
+          style={[
+            styles.button, 
+            styles.nextButton,
+            !onPrevious && { marginLeft: 0 }
+          ]} 
+          onPress={handleNext}
+        >
+          <Text style={styles.nextButtonText}>Siguiente</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -73,6 +106,33 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 5,
     paddingHorizontal: 10,
+  },
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  button: {
+    paddingVertical: 12,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+  },
+  backButton: {
+    backgroundColor: '#f5f5f5',
+    marginRight: 8,
+  },
+  backButtonText: {
+    color: '#555',
+    fontWeight: '600',
+  },
+  nextButton: {
+    backgroundColor: '#4a90e2',
+    marginLeft: 8,
+  },
+  nextButtonText: {
+    color: '#fff',
+    fontWeight: '600',
   },
 });
 

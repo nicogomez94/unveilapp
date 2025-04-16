@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useOnboarding } from '../viewmodels/useOnboarding';
 
-const CurriculumPreviewStep = ({ onFinish }) => {
+const CurriculumPreviewStep = ({ onFinish, onPrevious }) => { // Añadir onPrevious
   // Obtiene los datos del onboarding desde el ViewModel
   const { onboardingData } = useOnboarding();
   
@@ -35,9 +35,21 @@ const CurriculumPreviewStep = ({ onFinish }) => {
         <Text>Reseñas: N/A</Text>
         <Text>Nivel: Principiante</Text>
 
-        <TouchableOpacity style={styles.finishButton} onPress={onFinish}>
+        <View style={styles.navigationButtons}>
+          <TouchableOpacity 
+            style={[styles.button, styles.backButton]} 
+            onPress={onPrevious}
+          >
+            <Text style={styles.backButtonText}>Atrás</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.button, styles.finishButton]} 
+            onPress={onFinish}
+          >
             <Text style={styles.finishButtonText}>Finalizar Onboarding</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
     </View>
   );
 };
@@ -62,12 +74,28 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  finishButton: {
-    backgroundColor: '#4a90e2',
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 30,
+  },
+  button: {
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 30,
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  backButton: {
+    backgroundColor: '#e0e0e0',
+  },
+  backButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  finishButton: {
+    backgroundColor: '#4a90e2',
   },
   finishButtonText: {
     color: 'white',

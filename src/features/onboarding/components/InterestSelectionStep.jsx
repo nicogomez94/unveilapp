@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useOnboarding } from '../viewmodels/useOnboarding';
 
 const interesesData = [
@@ -13,12 +13,10 @@ const interesesData = [
     'Eventos Locales',
 ];
 
-const InterestSelectionStep = ({ onNext }) => {
-  const { saveStepData } = useOnboarding();
-  // Estado para almacenar los intereses seleccionados
-  const [selectedInterests, setSelectedInterests] = useState([]);
+const InterestSelectionStep = ({ onNext, onPrevious }) => {
+  const { onboardingData, updateStepData } = useOnboarding();
+  const [selectedInterests, setSelectedInterests] = useState(onboardingData.interests || []);
 
-  // Función para agregar o quitar un interés de la lista de seleccionados
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
         setSelectedInterests(selectedInterests.filter((item) => item !== interest));
@@ -27,11 +25,10 @@ const InterestSelectionStep = ({ onNext }) => {
     }
   };
 
-  // Función para pasar al siguiente paso, enviando los intereses seleccionados
   const handleNext = () => {
     if (selectedInterests.length > 0) {
       console.log('Intereses seleccionados:', selectedInterests);
-      saveStepData({ interests: selectedInterests });
+      updateStepData({ interests: selectedInterests });
       onNext();
     } else {
       Alert.alert(
@@ -71,9 +68,22 @@ const InterestSelectionStep = ({ onNext }) => {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-        <Text style={styles.nextButtonText}>Siguiente</Text>
-      </TouchableOpacity>
+      <View style={styles.navigationButtons}>
+        <TouchableOpacity 
+          style={[styles.button, styles.backButton]} 
+          onPress={onPrevious}
+        >
+          <Text style={styles.backButtonText}>Atrás</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.button, styles.nextButton]} 
+          onPress={handleNext}
+          disabled={selectedInterests.length === 0}
+        >
+          <Text style={styles.nextButtonText}>Siguiente</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -116,12 +126,28 @@ const styles = StyleSheet.create({
   selectedInterestText: {
     color: 'white',
   },
-  nextButton: {
-    backgroundColor: '#4a90e2',
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  button: {
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 20,
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  backButton: {
+    backgroundColor: '#f0f0f0',
+  },
+  backButtonText: {
+    color: '#666',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  nextButton: {
+    backgroundColor: '#4a90e2',
   },
   nextButtonText: {
     color: 'white',

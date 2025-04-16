@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useOnboarding } from '../viewmodels/useOnboarding';
 
-const SocialMediaStep = ({ onNext }) => {
-  const { saveStepData } = useOnboarding();
-  const [formData, setFormData] = useState({
-    instagram: '',
-    tiktok: '',
+const SocialMediaStep = ({ onNext, onPrevious }) => {
+  const { onboardingData, updateStepData } = useOnboarding();
+  const [socialData, setSocialData] = useState({
+    instagram: onboardingData.instagram || '',
+    tiktok: onboardingData.tiktok || '',
   });
 
   const handleNext = () => {
-    saveStepData(formData);
+    updateStepData(socialData);
     onNext();
   };
 
@@ -22,17 +22,31 @@ const SocialMediaStep = ({ onNext }) => {
       </Text>
       <TextInput
         placeholder="Usuario de Instagram (sin @)"
-        value={formData.instagram}
-        onChangeText={(text) => setFormData({ ...formData, instagram: text })}
+        value={socialData.instagram}
+        onChangeText={(text) => setSocialData({ ...socialData, instagram: text })}
         style={styles.input}
       />
       <TextInput
         placeholder="Usuario de TikTok (sin @)"
-        value={formData.tiktok}
-        onChangeText={(text) => setFormData({ ...formData, tiktok: text })}
+        value={socialData.tiktok}
+        onChangeText={(text) => setSocialData({ ...socialData, tiktok: text })}
         style={styles.input}
       />
-      <Button title="Siguiente" onPress={handleNext} />
+      <View style={styles.navigationButtons}>
+        <TouchableOpacity 
+          style={[styles.button, styles.backButton]} 
+          onPress={onPrevious}
+        >
+          <Text style={styles.backButtonText}>Atrás</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.button, styles.nextButton]} 
+          onPress={handleNext}
+        >
+          <Text style={styles.nextButtonText}>Siguiente</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -59,6 +73,27 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
     paddingHorizontal: 10,
+  },
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+  },
+  backButton: {
+    backgroundColor: '#ddd',
+  },
+  nextButton: {
+    backgroundColor: '#007BFF',
+  },
+  backButtonText: {
+    color: '#333',
+  },
+  nextButtonText: {
+    color: '#fff',
   },
 });
 
