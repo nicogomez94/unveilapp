@@ -5,11 +5,11 @@ import { useOnboarding } from '../viewmodels/useOnboarding';
 const RegisterStep = ({ onNext }) => {
   const { saveStepData } = useOnboarding();
   const [formData, setFormData] = useState({
-    fullName: 'test',
-    email: 'test@gmail.com',
-    password: 'sdfadfds',
-    country: 'argentina',
-    city: 'bsas',
+    fullName: 'Nico',
+    email: 'nico@gmail.com',
+    password: '123456',
+    country: 'Argentina',
+    city: 'Buenos Aires',
   });
 
   const handleNext = () => {
