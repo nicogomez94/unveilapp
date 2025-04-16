@@ -17,40 +17,40 @@ const RegisterStep = ({ onNext, onPrevious }) => {
     city: onboardingData.city || '',
   });
   
-  // Estado para manejar errores de validación
+  // estado para manejar errores de validacion
   const [errors, setErrors] = useState({
     email: '',
     password: ''
   });
 
-  // Función para validar email utilizando expresión regular
+  // Funcion para validar email utilizando expresion regular
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
   
-  // Función para validar contraseña (al menos 6 caracteres)
+  // Funcion para validar contraseña (al menos 6 caracteres)
   const isValidPassword = (password) => {
     return password.length >= 6;
   };
 
   const handleNext = () => {
-    // Resetear errores
+    // resetear errores
     setErrors({ email: '', password: '' });
     
-    // Validar campos requeridos
+    // validar
     if (!formData.fullName || !formData.email || !formData.password) {
       Alert.alert('Error', 'Por favor, completa todos los campos obligatorios.');
       return;
     }
     
-    // Validar formato de email
+    // email
     if (!isValidEmail(formData.email)) {
       setErrors(prev => ({ ...prev, email: 'Por favor ingresa un email válido' }));
       return;
     }
     
-    // Validar longitud de contraseña
+    // contraseña
     if (!isValidPassword(formData.password)) {
       setErrors(prev => ({ ...prev, password: 'La contraseña debe tener al menos 6 caracteres' }));
       return;
@@ -67,9 +67,9 @@ const RegisterStep = ({ onNext, onPrevious }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Información Personal</Text>
+      <Text style={styles.title}>Informacion Personal</Text>
       <Text style={styles.subtitle}>
-        Completa tu información personal para crear tu cuenta
+        Completa tu informacion personal para crear tu cuenta
       </Text>
       <TextInput
         placeholder="Nombre completo"
@@ -80,7 +80,7 @@ const RegisterStep = ({ onNext, onPrevious }) => {
       
       <View>
         <TextInput
-          placeholder="Correo electrónico"
+          placeholder="Correo electrnico"
           value={formData.email}
           onChangeText={(text) => {
             setFormData({ ...formData, email: text });

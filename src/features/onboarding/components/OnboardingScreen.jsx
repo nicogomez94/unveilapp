@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native'; 
 import RegisterStep from './RegisterStep';
 import SocialMediaStep from './SocialMediaStep';
 import InterestSelectionStep from './InterestSelectionStep';
 import CurriculumPreviewStep from './CurriculumPreviewStep';
 import ProgressIndicator from './ProgressIndicator';
+import DebugButton from '../../../components/DebugButton'; 
 
 const OnboardingScreen = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  
+
   const goToNext = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
   };
-  
+
   const goToPrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     } else {
-      // Si estamos en el primer paso, volver a la pantalla de bienvenida
       navigation.goBack();
     }
   };
-  
+
   const finishOnboarding = () => {
     navigation.navigate('Dashboard');
   };
-  
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 0:
@@ -42,16 +42,19 @@ const OnboardingScreen = ({ navigation }) => {
         return <RegisterStep onNext={goToNext} onPrevious={goToPrevious} />;
     }
   };
-  
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ProgressIndicator 
-        steps={4} 
-        currentStep={currentStep + 1} 
+      <ProgressIndicator
+        steps={4}
+        currentStep={currentStep + 1}
       />
-      <View style={styles.container}>
-        {renderCurrentStep()}
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.stepContainer}>
+          {renderCurrentStep()}
+        </View>
+        <DebugButton />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -61,10 +64,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  container: {
-    flex: 1,
+  scrollContainer: {
+    flexGrow: 1, 
+    justifyContent: 'space-between', 
+  },
+  stepContainer: {
+    flex: 1, 
     padding: 16,
-    backgroundColor: '#fff',
   },
 });
 
