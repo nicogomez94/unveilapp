@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, Modal, TextInput, ActivityIndicator } from 'react-native';
 import { mockOffers } from '../../../data/mock/mockOffers';
+import { useProposalStore } from '../../../store/proposalStore';
 
 const OfferDetailScreen = ({ route, navigation }) => {
     const { offerId } = route.params || {};
-    
-    // Buscar la oferta por ID en los datos mock
     const offer = mockOffers.find(o => o.id === offerId);
     
-    // Estados para el flujo de "Mostrar Interés"
-    const [proposedDates, setProposedDates] = useState([]);
+    // Usar el store de propuestas
+    const { hasProposal, getProposal, addProposal, updateProposalStatus } = useProposalStore();
+    const proposal = getProposal(offerId);
+    
+    // Estados locales
+    const [proposedDates, setProposedDates] = useState(proposal?.dates || []);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputText, setInputText] = useState('');
-    const [responseStatus, setResponseStatus] = useState(null); // 'pending', 'accepted', 'rejected'
+    const [responseStatus, setResponseStatus] = useState(proposal?.status || null);
     const [isLoading, setIsLoading] = useState(false);
     
     // Verifica si offer existe, si no, muestra un mensaje
@@ -31,7 +34,6 @@ const OfferDetailScreen = ({ route, navigation }) => {
     }
 
     const handleProposeDates = () => {
-        // Solo permitir proponer fechas si no hay una respuesta aún
         if (responseStatus === null) {
             setModalVisible(true);
         } else {
@@ -50,11 +52,14 @@ const OfferDetailScreen = ({ route, navigation }) => {
                 setProposedDates(datesArray);
                 setModalVisible(false);
                 
-                // Iniciar simulación de respuesta
+                // Guardar en el store
+                addProposal(offerId, datesArray, 'pending');
+                
+                // Actualizar estado local
                 setResponseStatus('pending');
                 setIsLoading(true);
                 
-                // Simular tiempo de espera del negocio
+                // Simular respuesta
                 setTimeout(() => {
                     simulateBusinessResponse(datesArray);
                     setIsLoading(false);
@@ -68,15 +73,15 @@ const OfferDetailScreen = ({ route, navigation }) => {
     };
 
     const simulateBusinessResponse = (datesArray) => {
-        // 60% de probabilidad de aceptación para una experiencia más positiva
         const accepted = Math.random() < 0.6;
         
         if (accepted) {
-            // Seleccionar aleatoriamente una fecha si hay más de una
             const selectedDate = datesArray.length > 1 
                 ? datesArray[Math.floor(Math.random() * datesArray.length)]
                 : datesArray[0];
                 
+            // Actualizar en el store
+            updateProposalStatus(offerId, 'accepted');
             setResponseStatus('accepted');
             
             Alert.alert(
@@ -93,6 +98,8 @@ const OfferDetailScreen = ({ route, navigation }) => {
                 ]
             );
         } else {
+            // Actualizar en el store
+            updateProposalStatus(offerId, 'rejected');
             setResponseStatus('rejected');
             
             Alert.alert(
