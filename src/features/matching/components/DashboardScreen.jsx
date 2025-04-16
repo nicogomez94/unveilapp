@@ -24,10 +24,19 @@ const DashboardScreen = () => {
             style={styles.offerCard}
             onPress={() => navigation.navigate('OfferDetail', { offerId: item.id })}
         >
-            <Text style={styles.offerTitle}>{item.title || 'Sin título'}</Text>
-            <Text style={styles.offerBrand}>{item.brand || 'Marca no disponible'}</Text>
-            <Text style={styles.offerCategory}>{item.category || 'Sin categoría'}</Text>
-            <Text style={styles.offerCompensation}>Compensación: ${item.compensation || '0'}</Text>
+            <Text style={styles.offerTitle}>{item.title}</Text>
+            <Text style={styles.offerBrand}>{item.brand}</Text>
+            <Text style={styles.offerCategory}>{item.category}</Text>
+            <Text style={styles.offerDescription} numberOfLines={2}>{item.description}</Text>
+            <Text style={styles.incentive}>Incentivo: {item.incentive}</Text>
+            <Text style={styles.offerCompensation}>Compensación: ${item.compensation}</Text>
+            
+            <TouchableOpacity 
+                style={styles.detailsButton}
+                onPress={() => navigation.navigate('OfferDetail', { offerId: item.id })}
+            >
+                <Text style={styles.detailsButtonText}>Ver Detalles</Text>
+            </TouchableOpacity>
         </TouchableOpacity>
     );
 
@@ -98,10 +107,33 @@ const styles = StyleSheet.create({
         color: '#666',
         marginBottom: 5,
     },
+    offerDescription: {
+        fontSize: 14,
+        color: '#555',
+        marginVertical: 8,
+    },
+    incentive: {
+        fontSize: 14,
+        color: '#2e7d32', // Verde para destacar el incentivo
+        marginBottom: 4,
+    },
     offerCompensation: {
         fontSize: 16,
         fontWeight: '500',
         color: '#4a90e2',
+    },
+    detailsButton: {
+        backgroundColor: '#4a90e2',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 4,
+        alignSelf: 'flex-end',
+        marginTop: 8,
+    },
+    detailsButtonText: {
+        color: 'white',
+        fontSize: 14,
+        fontWeight: '500',
     },
     noOffersText: {
         fontSize: 16,
