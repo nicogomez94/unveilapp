@@ -16,7 +16,7 @@ const WelcomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#08d9e3', '#5a6bff']}
+        colors={['#5a6bff','#08d9e3']}
         style={styles.gradientBackground}
       >
         <View style={styles.contentContainer}>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#4a90e2',
+    color: '#5a6bff',
   },
   textContainer: {
     alignItems: 'center',
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: '#4a90e2',
+    color: '#5a6bff',
     fontWeight: 'bold',
   },
   secondaryButton: {

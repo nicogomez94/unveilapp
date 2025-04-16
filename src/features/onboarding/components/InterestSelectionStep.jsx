@@ -67,7 +67,9 @@ const InterestSelectionStep = ({ onNext, onPrevious }) => {
           </TouchableOpacity>
         ))}
       </View>
-
+       
+      <View style={{ borderBottomWidth: 1, borderBottomColor: '#ccc', marginVertical: 20 }} />
+      
       <View style={styles.navigationButtons}>
         <TouchableOpacity 
           style={[styles.button, styles.backButton]} 
@@ -118,10 +120,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedInterest: {
-    backgroundColor: '#5a6bff',
+    backgroundColor: '#545fc1',
   },
   interestText: {
-    fontWeight: '500',
+    // fontWeight: '500',
   },
   selectedInterestText: {
     color: 'white',

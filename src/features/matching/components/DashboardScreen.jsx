@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, } from 'react-native';
 import { mockOffers } from '../../../data/mock/mockOffers';
 import { useOnboarding } from '../../onboarding/viewmodels/useOnboarding'; // Importa el hook useOnboarding
 import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
+import { LinearGradient } from 'expo-linear-gradient';
 
 const DashboardScreen = () => {
     const { onboardingData } = useOnboarding();
@@ -41,26 +42,30 @@ const DashboardScreen = () => {
     );
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.welcomeText}>
-                Bienvenido, {onboardingData?.fullName || 'Usuario'}
-            </Text>
-            
-            <Text style={styles.sectionTitle}>Ofertas Recomendadas</Text>
-            
-            {filteredOffers.length > 0 ? (
-                <FlatList
-                    data={filteredOffers}
-                    renderItem={renderOfferItem}
-                    keyExtractor={(item) => item.id.toString()}
-                    contentContainerStyle={styles.offersList}
-                />
-            ) : (
-                <Text style={styles.noOffersText}>
-                    No hay ofertas disponibles para tus intereses. ¡Pronto tendremos más!
+        <SafeAreaView style={styles.container}>
+            <LinearGradient
+                    colors={['#000',"#fff"]}
+                    style={styles.gradientBackground}
+            ></LinearGradient>
+                <Text style={styles.welcomeText}>
+                    Bienvenido, {onboardingData?.fullName || 'Usuario'}
                 </Text>
-            )}
-        </View>
+                
+                <Text style={styles.sectionTitle}>Ofertas Recomendadas</Text>
+                
+                {filteredOffers.length > 0 ? (
+                    <FlatList
+                        data={filteredOffers}
+                        renderItem={renderOfferItem}
+                        keyExtractor={(item) => item.id.toString()}
+                        contentContainerStyle={styles.offersList}
+                    />
+                ) : (
+                    <Text style={styles.noOffersText}>
+                        No hay ofertas disponibles para tus intereses. ¡Pronto tendremos más!
+                    </Text>
+                )}
+        </SafeAreaView>
     );
 };
 
@@ -68,16 +73,23 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#5a6bff',
     },
+    gradientBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+      },
     welcomeText: {
         fontSize: 22,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: 'white',
     },
     sectionTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
         marginBottom: 15,
+        color: '#f4f4f4',
     },
     offersList: {
         paddingBottom: 20,
@@ -114,13 +126,13 @@ const styles = StyleSheet.create({
     },
     incentive: {
         fontSize: 14,
-        color: '#2e7d32', // Verde para destacar el incentivo
+        color: '#95cf93', // Verde para destacar el incentivo
         marginBottom: 4,
     },
     offerCompensation: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#4a90e2',
+        color: '#e6ba86',
     },
     detailsButton: {
         backgroundColor: '#5a6bff',

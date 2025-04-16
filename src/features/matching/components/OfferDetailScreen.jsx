@@ -229,17 +229,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#5a6bff',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 8,
+        color: 'white',
     },
     brand: {
         fontSize: 18,
         color: '#555',
         marginBottom: 12,
+        color: '#f4f4f4',
     },
     categoryTag: {
         backgroundColor: '#e0e0e0',
@@ -293,7 +295,8 @@ const styles = StyleSheet.create({
     benefitValue: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#4a90e2',
+        // color: '#4a90e2',
+        color: '#5a6bff',
     },
     proposalSection: {
         backgroundColor: 'white',
@@ -418,7 +421,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     confirmButton: {
-        backgroundColor: '#4a90e2',
+        backgroundColor: '#5a6bff',
         marginLeft: 8,
     },
     confirmButtonText: {
